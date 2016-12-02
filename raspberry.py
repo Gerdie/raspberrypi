@@ -1,4 +1,4 @@
-#raspberry pi and wemos-d1-mini ESP8266 with micropython (wifi built-in)
+#raspberry pi
 
 #to connect to raspberrypi, component must operate at 3.3 volts (not 5 volts)
 #components must be digital - raspberrypi can't measure voltage. no state-change thermometers
@@ -26,3 +26,18 @@ def read_temp_celsius():
                 return float(value[2:])/1000.0
 
 redis_connection = StrictRedis('')
+
+#using wemos-d1-mini ESP8266 (wifi built in) with micropython...
+
+import dht
+import machine
+
+print "Powering on sensor"
+power_pin = machine.Pin()
+power_pin.high()
+
+print "Reading sensor"
+d = dht.DHT11(machine.Pin(0))
+d.measure()
+print "Temp", d.temperature() * 1.8 + 32
+print "Humidity", d.humidity()
